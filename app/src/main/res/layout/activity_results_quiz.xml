@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+
+    android:background="@color/gray"
+    tools:context=".MainActivityFiles.ResultsQuizActivity">
+
+
+    <LinearLayout
+        android:layout_margin="7dp"
+        android:textColor="@color/textolor"
+        android:textColorHint="@color/textolor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:textColor="@color/textolor"
+            android:textColorHint="@color/textolor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:textSize="20dp"
+            android:text="@string/statistic_text"
+            />
+        <TextView
+            android:textColor="@color/textolor"
+            android:textColorHint="@color/textolor"
+            android:textSize="17dp"
+            android:layout_gravity="center"
+            android:id="@+id/tw_name_quiz_in_activity_results_quiz"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:gravity="right"
+
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:textColor="@color/textolor"
+        android:textColorHint="@color/textolor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:textColor="@color/textolor"
+            android:textColorHint="@color/textolor"
+            android:textSize="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/points_received"
+            />
+        <TextView
+            android:textColor="@color/textolor"
+            android:textColorHint="@color/textolor"
+            android:textSize="15dp"
+            android:id="@+id/tw_points_received_quiz_in_activity_results_quiz"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:gravity="right"
+
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:textColor="@color/textolor"
+        android:textColorHint="@color/textolor"
+        android:layout_marginTop="20dp"
+        android:textSize="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:textColor="@color/textolor"
+            android:textColorHint="@color/textolor"
+            android:textSize="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/total_points_to_received"
+            />
+        <TextView
+            android:textColor="@color/textolor"
+            android:textColorHint="@color/textolor"
+            android:textSize="15dp"
+            android:id="@+id/tw_total_points_to_received_quiz_in_activity_results_quiz"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:gravity="right"
+
+            />
+    </LinearLayout>
+    <Button
+        android:textColor="@color/textolor"
+        android:textColorHint="@color/textolor"
+        android:textSize="15dp"
+        android:id="@+id/btn_return_activity_results_quiz"
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/finish"
+        />
+
+
+</LinearLayout>

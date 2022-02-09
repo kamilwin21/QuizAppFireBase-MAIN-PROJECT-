@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/gray"
+    tools:context=".MainActivityFiles.QuestionActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+        <TextView
+            android:id="@+id/questionTimer"
+            android:textColor="@color/textolor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:hint="Stoper"
+            />
+
+    </LinearLayout>
+    <TextView
+        android:id="@+id/tw_activity_question_question"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="25dp"
+        android:textColor="@color/textolor"
+        android:textColorHint="@color/textolor"
+        android:layout_marginTop="100dp"
+        android:layout_marginBottom="50dp"
+        android:background="@color/gray_1"
+        android:layout_marginRight="5dp"
+        android:layout_marginLeft="5dp"
+        android:hint="@string/activity_question_question"
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="20dp"
+        >
+        <TextView
+            android:id="@+id/tw_activity_question_answer_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxWidth="100dp"
+            android:minHeight="150dp"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:textSize="18dp"
+            android:textColor="@color/textolor"
+            android:textColorHint="@color/textolor"
+            android:background="@drawable/radius"
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="5dp"
+            android:hint="@string/activity_question_answer_1"
+            />
+        <TextView
+            android:id="@+id/tw_activity_question_answer_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxWidth="100dp"
+            android:minHeight="150dp"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:textSize="18dp"
+            android:textColor="@color/textolor"
+            android:textColorHint="@color/textolor"
+            android:background="@drawable/radius"
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="5dp"
+            android:hint="@string/activity_question_answer_1"
+            />
+
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        >
+
+
+            <TextView
+                android:id="@+id/tw_activity_question_answer_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxWidth="100dp"
+                android:minHeight="150dp"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:textSize="18dp"
+                android:textColor="@color/textolor"
+                android:textColorHint="@color/textolor"
+                android:background="@drawable/radius"
+                android:layout_marginRight="5dp"
+                android:layout_marginLeft="5dp"
+
+                android:hint="@string/activity_question_answer_1"
+                />
+
+        <TextView
+            android:id="@+id/tw_activity_question_answer_4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxWidth="100dp"
+            android:minHeight="150dp"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:textSize="18dp"
+            android:textColor="@color/textolor"
+            android:textColorHint="@color/textolor"
+            android:background="@drawable/radius"
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="5dp"
+            android:hint="@string/activity_question_answer_1"
+            />
+    </LinearLayout>
+
+
+</LinearLayout>

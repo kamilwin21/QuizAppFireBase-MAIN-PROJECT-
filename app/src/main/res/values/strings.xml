@@ -1,0 +1,36 @@
+<resources>
+    <string name="app_name">QuizAppFireBase</string>
+    <string name="open">Open</string>
+    <string name="close">Close</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- Strings in navigation drawer in aplication  -->
+    <string name="nav_menu_title_1">Ogólne</string>
+    <string name="nav_menu_title_2">Informacje</string>
+
+    <string name="nav_menu_1">Kategorie Quizów</string>
+    <string name="nav_menu_2">Użytkownicy</string>
+    <string name="nav_menu_3">Opcje</string>
+    <string name="nav_menu_4">O mnie</string>
+
+    <!-- Strings of buttons  -->
+    <string name="btn_return">Powrót</string>
+    <string name="finish">Zakończ</string>
+    <!-- Strings in header in navigation menu  -->
+    <string name="header_email">User</string>
+
+
+    <!-- Strings in activity_question -->
+    <string name="activity_question_question">Pytanie</string>
+    <string name="activity_question_answer_1">Odpowiedź 1 </string>
+    <string name="activity_question_answer_2">Odpowiedź 2 </string>
+    <string name="activity_question_answer_3">Odpowiedź 3 </string>
+    <string name="activity_question_answer_4">Odpowiedź 4 </string>
+
+    <!-- Strings in activity_results_quiz -->
+    <string name="statistic_text">Statystyki quizu: </string>
+    <string name="points_received">Zdobyte punkty: </string>
+    <string name="total_points_to_received">Punkty do zdobycia:</string>
+
+</resources>
