@@ -3,8 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Katalog_aplikacji_android_studio/QuizAppFireBase/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.2625" />
+        <entry key="..\:/Katalog_aplikacji_android_studio/QuizAppFireBase/app/src/main/res/drawable/ic_launcher_background.xml" value="0.2625" />
         <entry key="..\:/Katalog_aplikacji_android_studio/QuizAppFireBase/app/src/main/res/drawable/radius.xml" value="0.26615384615384613" />
         <entry key="..\:/Katalog_aplikacji_android_studio/QuizAppFireBase/app/src/main/res/drawable/radius2.xml" value="0.14010416666666667" />
+        <entry key="..\:/Katalog_aplikacji_android_studio/QuizAppFireBase/app/src/main/res/drawable/radius_default.xml" value="0.2625" />
         <entry key="..\:/Katalog_aplikacji_android_studio/QuizAppFireBase/app/src/main/res/layout-v31/activity_login.xml" value="0.264" />
         <entry key="..\:/Katalog_aplikacji_android_studio/QuizAppFireBase/app/src/main/res/layout/activity_about_me.xml" value="0.36666666666666664" />
         <entry key="..\:/Katalog_aplikacji_android_studio/QuizAppFireBase/app/src/main/res/layout/activity_login.xml" value="0.2" />

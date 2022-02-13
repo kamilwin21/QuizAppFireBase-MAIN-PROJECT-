@@ -14,9 +14,11 @@ import androidx.core.content.ContextCompat
 import com.example.quizappfirebase.MainActivityFiles.ResultsQuizActivity
 import com.example.quizappfirebase.R
 import kotlinx.android.synthetic.main.activity_question.*
+import org.w3c.dom.Text
 import java.util.*
 import java.util.logging.Handler
 import kotlin.collections.ArrayList
+import kotlin.collections.HashSet
 import kotlin.concurrent.schedule
 import kotlin.coroutines.coroutineContext
 import kotlin.random.Random
@@ -34,13 +36,8 @@ class MyOwnButtonClickListener : View.OnClickListener {
     var timer: Long= 0.toLong()
     var questionIsActive: Boolean = false
     var timeCountDownTimer: CountDownTimer? = null
-    var clickListener: MyOwnButtonClickListener? = null
-//    var clickListener: MyOwnButtonClickListener? = MyOwnButtonClickListener(this.currentIdQuestion, this.textViewList, this.questionsList,
-//                                this.counterCorrectQuestion, this.questionName, this.checkExists, this.userStatic, this.textViewList[5])
+    var listOfUserAnswers: ArrayList<String> = arrayListOf()
 
-
-
-    var checkTimer: Boolean = false
 
 
 
@@ -59,7 +56,7 @@ class MyOwnButtonClickListener : View.OnClickListener {
         this.userStatic = userStatic
         this.timerTextView = timerTextView
         this.timeCountDownTimer = timeCountDownTimer
-        this.clickListener = clickListener
+
 
 
 
@@ -92,28 +89,22 @@ class MyOwnButtonClickListener : View.OnClickListener {
 
     override fun onClick(v: View?) {
 
-        println("ClickListener Object: ${this.clickListener} ")
-
-//        if (this.clickListener!!.currentIdQuestion!! > this.currentIdQuestion)
-//        {
-//            this.currentIdQuestion = clickListener?.currentIdQuestion!! + 1
-//        }
-
-
         println("INDEKS: ${currentIdQuestion+1}")
         currentIdQuestion++
 
-
         if (currentIdQuestion <= questionsList.size)
         {
-
-            counterCorrectQuestion = countCorrectUserAnswer(v, questionsList[currentIdQuestion-1].correctAnswer, counterCorrectQuestion)
-
+            this.listOfUserAnswers.add(v!!.findViewById<TextView>(v!!.id).text.toString())
+            println("Odpowiedzi użytkownika: ${this.listOfUserAnswers.toString()}")
         }
 
         //Do something if user click on view(This example is textView with choose answer in question)
-        mySetXmlParametersOnClickListener(v)
-
+        if (v?.findViewById<TextView>(v!!.id) == textViewList[0])
+        {
+            setDefaultXMLOption(v)
+        }else{
+            mySetXmlParametersOnClickListener(v)
+        }
 
 
 
@@ -123,49 +114,78 @@ class MyOwnButtonClickListener : View.OnClickListener {
 
 
         }else if (currentIdQuestion == questionsList.size){
+            counterCorrectQuestion = countCorrectUserAnswerWithList(questionsList, listOfUserAnswers)
             goToResultsQuizActivity(v, counterCorrectQuestion, questionsList.size, questionName, checkExists,userStatic)
 
 
         }
 
 
-
-
     }
 
 
+    fun randAnswers(question:Question): Question{
+        var randomHelpList: ArrayList<String> = arrayListOf(
+            question.answer1,
+            question.answer2,
+            question.answer3,
+            question.answer4
+        )
 
-    private fun setIntervalTimer(v:View?,textView: TextView? , questionisActivate: Boolean): CountDownTimer{
 
-        var counterQuestion:Int = 0
+        var randomIdList: ArrayList<Int> = arrayListOf(0,1,2,3)
+        var helpList: ArrayList<Int> = arrayListOf()
+        var mutableSet: MutableSet<Int> = mutableSetOf()
 
-        val timer = object : CountDownTimer(5000, 1000)
+        for (id in 0 until randomIdList.size)
         {
-            override fun onTick(millisUntilFinished: Long) {
-
-                var counter = millisUntilFinished / 1000
-                timer = counter
-                timerTextView.text = counter.toString()
-
-
-            }
-
-            override fun onFinish() {
-
-                if (v?.hasOnClickListeners() == false )
-                {
-
-
-                }
-
-
-            }
+            var randId: Int = Random.nextInt(0, randomIdList.size)
+            helpList.add(randomIdList[randId])
 
         }
 
+        mutableSet = helpList.toMutableSet()
 
-        return timer
+        if(mutableSet.size < randomIdList.size)
+        {
+            while (mutableSet.size < randomIdList.size)
+            {
+                var randomId: Int = Random.nextInt(0, randomIdList.size)
+                mutableSet.add(randomIdList[randomId])
+            }
+        }
+        randomIdList = arrayListOf()
 
+        for (hs in mutableSet)
+        {
+            randomIdList.add(hs)
+        }
+
+        var randQuestionList: Question = Question()
+        randQuestionList.answer1 = randomHelpList[randomIdList[0]]
+        randQuestionList.answer2 = randomHelpList[randomIdList[1]]
+        randQuestionList.answer3 = randomHelpList[randomIdList[2]]
+        randQuestionList.answer4 = randomHelpList[randomIdList[3]]
+
+        for (i in randomIdList)
+        {
+            println("Random List Id: ${i}")
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        return randQuestionList
     }
 
     private fun goToResultsQuizActivity(v: View?,pointsReceived: Int, totalPoints: Int, quizName: String, checkExisits: Boolean, userStatic:Statics){
@@ -183,80 +203,59 @@ class MyOwnButtonClickListener : View.OnClickListener {
         v!!.context.applicationContext.startActivity(intentResultsQuizActivity)
     }
 
-    private fun countCorrectUserAnswer(v: View?, correctAnswer: String, pointsReceived: Int): Int{
+    private fun countCorrectUserAnswerWithList(questionsList: ArrayList<Question>, userAnswers: ArrayList<String>): Int{
         //Counter correctUserAnswers
+        println("QuestionList: ${questionsList.size}")
+        println("UserAnswers: ${userAnswers.size}")
+        var counter: Int = 0
 
-        var counter = pointsReceived
-        if (v!!.findViewById<TextView>(v!!.id).text == correctAnswer)
+        println("=======================================================")
+        println("Pytania:")
+        for (q in 0 until questionsList.size)
         {
-            counter++
+            println("Pytanie: ${questionsList[q].title}")
+            println("Odpowiedź: ${questionsList[q].answer1}")
+            println("Odpowiedź: ${questionsList[q].answer2}")
+            println("Odpowiedź: ${questionsList[q].answer3}")
+            println("Odpowiedź: ${questionsList[q].answer4}")
+            println("Poprawna odpowiedź: ${questionsList[q].correctAnswer}")
         }
+
+        for (q in 0 until questionsList.size)
+        {
+            if (questionsList[q].correctAnswer == userAnswers[q])
+            {
+                counter++
+            }
+        }
+
+
+
         return counter
     }
 
-    //Funkcja do przerobienia. Źle losuje niewłaściwe pytania
-//    private fun incorrectAnswer(textViewList: ArrayList<TextView>, correctAnswer: String):TextView?{
-//        var incorrectAnswerList: ArrayList<TextView> = arrayListOf()
-//        var incorrect: TextView? = null
-//
-//        var id: Int = 0
-//        while (textViewList[id].text.trim().toString() != correctAnswer.trim() && id < 2 )
-//        {
-//            incorrectAnswerList.add(textViewList[id])
-//            id++
-//        }
-////        for(i in 1..4)
-////        {
-////            if (textViewList[i].text.trim().toString() != correctAnswer)
-////            {
-////               incorrectAnswerList.add(textViewList[i])
-////               // incorrect = textViewList[i]
-////
-////            }
-////        }
-//
-//        println("===========================================================")
-////        println("Niewłaściwa odpowiedź 1: ${incorrectAnswerList[0].text}")
-////        println("Niewłaściwa odpowiedź 2: ${incorrectAnswerList[1].text}")
-////        println("Niewłaściwa odpowiedź 3: ${incorrectAnswerList[2].text}")
-//        println("Nieprawidłowa odpowiedź: ${incorrectAnswerList[0].text}")
-//        println("Prawidłowa odpowiedź: ${correctAnswer}")
-//        //println("Niewłaściwa odpowiedź 4: ${incorrectAnswerList[3].text}")
-//        println("===========================================================")
-//
-//
-//       // var randomId: Int = Random.nextInt(0,2)
-//
-//
-//
-//
-//        return incorrectAnswerList[0]
-//        //return incorrect
-//    }
-
     private fun showQuestions(questionsList: ArrayList<Question>, id: Int){
         //Show current question in QuestionActivity
-        if (id==1)
-        {
 
-        }else if (id >=0)
-        {
+        var randomAnswers: Question = randAnswers(questionsList[id])
 
-//            textViewList[0].text = questionsList[id+1].title
-//            textViewList[1].text = questionsList[id+1].answer1
-//            textViewList[2].text = questionsList[id+1].answer2
-//            textViewList[3].text = questionsList[id+1].answer3
-//            textViewList[4].text = questionsList[id+1].answer4
-        }
         textViewList[0].text = questionsList[id].title
-        textViewList[1].text = questionsList[id].answer1
-        textViewList[2].text = questionsList[id].answer2
-        textViewList[3].text = questionsList[id].answer3
-        textViewList[4].text = questionsList[id].answer4
+        textViewList[1].text = randomAnswers.answer1
+        textViewList[2].text = randomAnswers.answer2
+        textViewList[3].text = randomAnswers.answer3
+        textViewList[4].text = randomAnswers.answer4
+
+
+//        textViewList[0].text = questionsList[id].title
+//        textViewList[1].text = questionsList[id].answer1
+//        textViewList[2].text = questionsList[id].answer2
+//        textViewList[3].text = questionsList[id].answer3
+//        textViewList[4].text = questionsList[id].answer4
 
 
 
     }
+
     private fun mySetXmlParametersOnClickListener(v: View?){
         //change xml parameters if user clicked on something view like button or text_view
         v!!.background = ContextCompat.getDrawable(v!!.context.applicationContext, R.drawable.radius2)
@@ -268,7 +267,7 @@ class MyOwnButtonClickListener : View.OnClickListener {
 
     private fun setDefaultXMLOption(v: View?)
     {
-        v!!.background = ContextCompat.getDrawable(v!!.context.applicationContext, R.drawable.radius)
+        v!!.background = ContextCompat.getDrawable(v!!.context.applicationContext, R.drawable.radius_default)
     }
 
 

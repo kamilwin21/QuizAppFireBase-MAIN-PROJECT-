@@ -36,12 +36,26 @@ class AdapterCategory (val context: Context,val categoriesList: ArrayList<Catego
 
 
     override fun onBindViewHolder(holder: MyViewHolder, @SuppressLint("RecyclerView") position: Int) {
+
         val layout = holder.view.linear_layout_id_position_categories
         val tw= holder.view.tw_category
         //layout.setBackgroundColor(colors.get(position))
 
+
+
+
         tw.text = categoriesList[position].categoryName
 
+        if (position == 0)
+        {
+            tw.setTextColor(Color.MAGENTA)
+        }else if (position == 1)
+        {
+            tw.setTextColor(Color.CYAN)
+        }else if (position == 1)
+        {
+            tw.setTextColor(Color.GREEN)
+        }
 
 
         layout.setOnClickListener {
@@ -71,6 +85,8 @@ class AdapterCategory (val context: Context,val categoriesList: ArrayList<Catego
                         intentQuestion.putExtra("exists", checkExists)
                         holder.view.context.startActivity(intentQuestion)
                         it.background = ContextCompat.getDrawable(holder.view.context, R.drawable.radius2)
+
+
 
                     }
 

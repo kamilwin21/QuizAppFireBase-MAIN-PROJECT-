@@ -68,14 +68,27 @@ class MainActivity : AppCompatActivity() {
             Question(3, "Jaki to czas teraźniejszy prosty?" , "Present Simple","Past Simple", "Present Simple", "Present Perfect", "Future Continuous")
 
         )
-        var category = Category(dataTimeId, "Angielski", questions3)
+        var mathCategoryList: List<Question> = listOf(
+            Question(0, "5 + 4 = ?", "9", "3","9","10","12"),
+            Question(1,"log( 10 ) = ?","1" , "10","20","1","4"),
+            Question(2, "Przedział: <-2,10). Jaki x należy do tego przedziału?" ,"-2","-1","10","-2","11" ),
+            Question(3 , "x = 2(5-3)-1. Ile wynosi x?","3","0","1","3","6"),
+            Question(4, "Ln( 1 ) = ?","1","0","-oo","+oo","1"),
+            Question(5, "Ile wynosi PI?","${Math.PI}","3.0","3.1024126386","${Math.PI}","2.82351252"),
+            Question(6, "Czego użyjemy chcąc obliczyć pole powierzchni skomplikownych kształtów?","Całek","Wzroru na trapez","Wzoru na prostokąt","Wzoru na trójkąt","Żadna z tych"),
+            Question(7, "Rozwiązaniem funkcji  f(2)= 2x + 3 jest: ", "7", "7","10","12","0"),
+            Question(8, "Funkcja y = 3x + 3 przecina oś OY w punkcie: ", "3", "0","2","6","3")
+
+        )
+
+        //var category = Category(dataTimeId, "Matematyka", mathCategoryList)
        // var quiz = Quiz(dataTimeId+100,questions)
 
         //val textView = findViewById<TextView>(R.id.tw_activity_main)
         val drawerLayout = findViewById<DrawerLayout>(R.id.main_Activity_drawer_layout)
         val navView = findViewById<NavigationView>(R.id.nav_view)
         var database = FirebaseDatabase.getInstance("https://quizfirebase-4cb19-default-rtdb.europe-west1.firebasedatabase.app/").reference
-
+        //database.child("Categories").child(category.id.toString()).setValue(category)
 
 
 

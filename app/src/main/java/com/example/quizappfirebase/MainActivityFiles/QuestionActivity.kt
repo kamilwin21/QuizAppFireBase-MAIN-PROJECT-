@@ -1,9 +1,11 @@
 package com.example.quizappfirebase.MainActivityFiles
 
+import android.animation.ObjectAnimator
 import android.content.Intent
 import android.os.*
 import androidx.appcompat.app.AppCompatActivity
 import android.view.View
+import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
@@ -18,15 +20,27 @@ import kotlinx.android.synthetic.main.activity_about_me.*
 import kotlinx.android.synthetic.main.activity_question.*
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
+import kotlin.collections.HashSet
 import kotlin.concurrent.schedule
 import kotlin.random.Random
 
 class QuestionActivity : AppCompatActivity() {
     private var doubleBackClick:Boolean = false
-
+    var currentProgress = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_question)
+
+
+            val progressBarTimer = findViewById<ProgressBar>(R.id.progress_bar_timer)
+
+//            progressBarTimer.max = 10
+//
+//            val currentProgress = 3
+//            ObjectAnimator.ofInt(progressBarTimer, "progress",currentProgress)
+//                .setDuration(10000)
+//                .start()
 
 
 
@@ -55,6 +69,27 @@ class QuestionActivity : AppCompatActivity() {
                             {
                                 Toast.makeText(applicationContext,"Nie udało się wczytać pytań", Toast.LENGTH_LONG).show()
                             }else{
+                            //var newRandomQuestionList: ArrayList<Question> = randomQuestionListOnCreateActivity(list)
+                                var randList: ArrayList<Question> = randQuestion(list)
+
+                            for(q in randList)
+                            {
+                                println("===================================")
+                                println("Długość tablicy: [${randList.size}]")
+                                println("Pytanie: ${q.title}")
+                                println("Answer: ${q.answer1}")
+                                println("Answer: ${q.answer2}")
+                                println("Answer: ${q.answer3}")
+                                println("Answer: ${q.answer4}")
+                                println("Correct Answer: ${q.correctAnswer}")
+                                println("===================================")
+                            }
+                            println(":::::::::::::::::::::::::::::::::::::::::::::::::::::")
+
+
+
+
+
 
                             var listOfTextView:ArrayList<TextView> = arrayListOf (
                                 tw_activity_question_question,
@@ -65,29 +100,33 @@ class QuestionActivity : AppCompatActivity() {
                                 questionTimer
                             )
 
+
+
                             var currentIdQuestion: Int = 0
                                 var counterCorrectQuestion: Int = 0
 
-                                showQuestion(list, currentIdQuestion)
-
-                                var clickListener = MyOwnButtonClickListener(currentIdQuestion,listOfTextView,list,counterCorrectQuestion,
-                                    questionName,checkExisits,userStatic, questionTimer)
 
 
+//                                var clickListener = MyOwnButtonClickListener(currentIdQuestion,listOfTextView,newRandomQuestionList,counterCorrectQuestion,
+//                                    questionName,checkExisits,userStatic, questionTimer)
 
-
+                           // println("Randomowana lista: ${newRandomQuestionList}")
 
 
 
 
-                                var myOwnClickListener = MyOwnButtonClickListener(currentIdQuestion,listOfTextView,list,counterCorrectQuestion,
-                                                        questionName,checkExisits,userStatic, questionTimer, clickListener)
 
-                            var timerCountDownTimer: CountDownTimer = setIntervalTimer(listOfTextView[1], myOwnClickListener)
-                            var timerCountDownTimer1: CountDownTimer = setIntervalTimer(listOfTextView[1], myOwnClickListener)
-                            var timerCountDownTimer2: CountDownTimer = setIntervalTimer(listOfTextView[1], myOwnClickListener)
-                            var timerCountDownTimer3: CountDownTimer = setIntervalTimer(listOfTextView[1], myOwnClickListener)
-                            var timerCountDownTimer4: CountDownTimer = setIntervalTimer(listOfTextView[1], myOwnClickListener)
+
+                                var myOwnClickListener = MyOwnButtonClickListener(currentIdQuestion,listOfTextView,randList,counterCorrectQuestion,
+                                                        questionName,checkExisits,userStatic, questionTimer)
+
+                            showQuestion(randList, currentIdQuestion, myOwnClickListener)
+
+                            var timerCountDownTimer: CountDownTimer = setIntervalTimer(listOfTextView[0], myOwnClickListener,progressBarTimer)
+                            var timerCountDownTimer1: CountDownTimer = setIntervalTimer(listOfTextView[0], myOwnClickListener,progressBarTimer)
+                            var timerCountDownTimer2: CountDownTimer = setIntervalTimer(listOfTextView[0], myOwnClickListener,progressBarTimer)
+                            var timerCountDownTimer3: CountDownTimer = setIntervalTimer(listOfTextView[0], myOwnClickListener,progressBarTimer)
+                            var timerCountDownTimer4: CountDownTimer = setIntervalTimer(listOfTextView[0], myOwnClickListener,progressBarTimer)
                             timerCountDownTimer.start()
 
 
@@ -104,6 +143,7 @@ class QuestionActivity : AppCompatActivity() {
                                     timerCountDownTimer2.cancel()
                                     timerCountDownTimer3.cancel()
                                     timerCountDownTimer4.cancel()
+                                    currentProgress=0
                                     myOwnClickListener.onClick(tw_activity_question_answer_1)
                                     println("ID W QUESTION ACTIVITY ${myOwnClickListener.currentIdQuestion}")
 
@@ -120,6 +160,7 @@ class QuestionActivity : AppCompatActivity() {
                                     timerCountDownTimer2.cancel()
                                     timerCountDownTimer3.cancel()
                                     timerCountDownTimer4.cancel()
+                                    currentProgress=0
                                     myOwnClickListener.onClick(tw_activity_question_answer_2)
                                     println("ID W QUESTION ACTIVITY ${myOwnClickListener.currentIdQuestion}")
 
@@ -133,6 +174,7 @@ class QuestionActivity : AppCompatActivity() {
                                     timerCountDownTimer2.start()
                                     timerCountDownTimer3.cancel()
                                     timerCountDownTimer4.cancel()
+                                    currentProgress=0
                                     myOwnClickListener.onClick(tw_activity_question_answer_3)
                                     println("ID W QUESTION ACTIVITY ${myOwnClickListener.currentIdQuestion}")
 
@@ -145,6 +187,7 @@ class QuestionActivity : AppCompatActivity() {
                                     timerCountDownTimer2.cancel()
                                     timerCountDownTimer3.start()
                                     timerCountDownTimer4.cancel()
+                                    currentProgress=0
                                     myOwnClickListener.onClick(tw_activity_question_answer_4)
                                     println("ID W QUESTION ACTIVITY ${myOwnClickListener.currentIdQuestion}")
 
@@ -168,44 +211,76 @@ class QuestionActivity : AppCompatActivity() {
 
 
     }
+    private fun randQuestion(questionList:ArrayList<Question>): ArrayList<Question>{
+        var randQuestionList: ArrayList<Question> = arrayListOf()
+        var hashSet: HashSet<Question> = HashSet()
 
-    private fun randomIncorrectAnswer(correctQuestion: String, vararg textView: TextView?):TextView?{
-        var inCorrectAnswerTextView: TextView? = null
-        for (t in 0..textView.size)
+
+        for (i in 0 until questionList.size)
         {
-            if (textView[t]?.text == correctQuestion)
-            {
-                inCorrectAnswerTextView = textView[t]
+            var randId: Int = Random.nextInt(0, questionList.size)
+            randQuestionList.add(questionList[randId])
 
+        }
+        hashSet = randQuestionList.toHashSet()
+        var helpList: ArrayList<Question> = arrayListOf()
+
+
+        if(hashSet.size < questionList.size)
+        {
+            while (hashSet.size < questionList.size)
+            {
+                var randomId: Int = Random.nextInt(0, questionList.size)
+                hashSet.add(questionList[randomId])
             }
         }
-        return inCorrectAnswerTextView
+
+        for (hs in hashSet)
+        {
+            helpList.add(hs)
+        }
+        randQuestionList = arrayListOf()
+        randQuestionList = helpList
+
+
+        return randQuestionList
     }
 
 
-    private fun setIntervalTimer(textView: TextView?, myOwnButtonClickListener: MyOwnButtonClickListener): CountDownTimer{
 
 
-        val timer = object : CountDownTimer(5000, 1000)
+
+    private fun setIntervalTimer(textView: TextView?, myOwnButtonClickListener: MyOwnButtonClickListener, progressBar: ProgressBar): CountDownTimer{
+
+
+
+
+
+
+        val timer = object : CountDownTimer(10000, 1000)
         {
             override fun onTick(millisUntilFinished: Long) {
 
                 var counter = millisUntilFinished / 1000
 //                timer = counter
                 questionTimer.text = counter.toString()
-
+                currentProgress += 10
+                ObjectAnimator.ofInt(progressBar, "progress",currentProgress).start()
 
             }
 
             override fun onFinish() {
-
+                currentProgress=0
 
                 cancel()
                 println("Koniec zewnętrzne")
                 if (myOwnButtonClickListener.currentIdQuestion <= myOwnButtonClickListener.questionsList.size)
                 {
                     myOwnButtonClickListener.onClick(textView)
-                    start()
+                    if (myOwnButtonClickListener.currentIdQuestion < myOwnButtonClickListener.questionsList.size)
+                    {
+                        start()
+                    }
                 }
 
 
@@ -239,12 +314,20 @@ class QuestionActivity : AppCompatActivity() {
 
 
 
-    private fun showQuestion(randomQuestionsList: ArrayList<Question>, id: Int){
+    private fun showQuestion(randomQuestionsList: ArrayList<Question>, id: Int, myOwnButtonClickListener: MyOwnButtonClickListener){
+
+        var randomAnswers= myOwnButtonClickListener.randAnswers(randomQuestionsList[id])
+
         tw_activity_question_question.text = randomQuestionsList[id].title
-        tw_activity_question_answer_1.text = randomQuestionsList[id].answer1
-        tw_activity_question_answer_2.text = randomQuestionsList[id].answer2
-        tw_activity_question_answer_3.text = randomQuestionsList[id].answer3
-        tw_activity_question_answer_4.text = randomQuestionsList[id].answer4
+        tw_activity_question_answer_1.text = randomAnswers.answer1
+        tw_activity_question_answer_2.text = randomAnswers.answer2
+        tw_activity_question_answer_3.text = randomAnswers.answer3
+        tw_activity_question_answer_4.text = randomAnswers.answer4
+//        tw_activity_question_question.text = randomQuestionsList[id].title
+//        tw_activity_question_answer_1.text = randomQuestionsList[id].answer1
+//        tw_activity_question_answer_2.text = randomQuestionsList[id].answer2
+//        tw_activity_question_answer_3.text = randomQuestionsList[id].answer3
+//        tw_activity_question_answer_4.text = randomQuestionsList[id].answer4
 
     }
 
