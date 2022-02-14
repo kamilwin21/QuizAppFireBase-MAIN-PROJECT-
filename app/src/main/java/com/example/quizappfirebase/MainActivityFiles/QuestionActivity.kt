@@ -2,9 +2,15 @@ package com.example.quizappfirebase.MainActivityFiles
 
 import android.animation.ObjectAnimator
 import android.content.Intent
+import android.content.res.ColorStateList
+import android.graphics.BlendMode
+import android.graphics.BlendModeColorFilter
+import android.graphics.Color
+import android.graphics.ColorFilter
 import android.os.*
 import androidx.appcompat.app.AppCompatActivity
 import android.view.View
+import android.view.animation.DecelerateInterpolator
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
@@ -24,23 +30,27 @@ import kotlin.collections.HashMap
 import kotlin.collections.HashSet
 import kotlin.concurrent.schedule
 import kotlin.random.Random
+//===================================================================================
 
 class QuestionActivity : AppCompatActivity() {
     private var doubleBackClick:Boolean = false
+    var totalTimeOnQestion: Long = 25000
     var currentProgress = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_question)
 
-
+            //Properties of Progress Bar in questions
+            //===================================================================================
             val progressBarTimer = findViewById<ProgressBar>(R.id.progress_bar_timer)
+            var animation = ObjectAnimator.ofInt(progressBarTimer, "progress", 100,0)
 
-//            progressBarTimer.max = 10
-//
-//            val currentProgress = 3
-//            ObjectAnimator.ofInt(progressBarTimer, "progress",currentProgress)
-//                .setDuration(10000)
-//                .start()
+            progressBarTimer.progressTintList = ColorStateList.valueOf(Color.parseColor("#CD038350"))
+
+            animation.duration = totalTimeOnQestion
+            animation.interpolator = DecelerateInterpolator()
+            animation.start()
+            //===================================================================================
 
 
 
@@ -118,15 +128,15 @@ class QuestionActivity : AppCompatActivity() {
 
 
                                 var myOwnClickListener = MyOwnButtonClickListener(currentIdQuestion,listOfTextView,randList,counterCorrectQuestion,
-                                                        questionName,checkExisits,userStatic, questionTimer)
+                                                        questionName,checkExisits,userStatic, questionTimer, progressBarTimer, currentProgress, animation)
 
                             showQuestion(randList, currentIdQuestion, myOwnClickListener)
 
-                            var timerCountDownTimer: CountDownTimer = setIntervalTimer(listOfTextView[0], myOwnClickListener,progressBarTimer)
-                            var timerCountDownTimer1: CountDownTimer = setIntervalTimer(listOfTextView[0], myOwnClickListener,progressBarTimer)
-                            var timerCountDownTimer2: CountDownTimer = setIntervalTimer(listOfTextView[0], myOwnClickListener,progressBarTimer)
-                            var timerCountDownTimer3: CountDownTimer = setIntervalTimer(listOfTextView[0], myOwnClickListener,progressBarTimer)
-                            var timerCountDownTimer4: CountDownTimer = setIntervalTimer(listOfTextView[0], myOwnClickListener,progressBarTimer)
+                            var timerCountDownTimer: CountDownTimer = setIntervalTimer(listOfTextView[0], myOwnClickListener,progressBarTimer, animation)
+                            var timerCountDownTimer1: CountDownTimer = setIntervalTimer(listOfTextView[0], myOwnClickListener,progressBarTimer, animation)
+                            var timerCountDownTimer2: CountDownTimer = setIntervalTimer(listOfTextView[0], myOwnClickListener,progressBarTimer, animation)
+                            var timerCountDownTimer3: CountDownTimer = setIntervalTimer(listOfTextView[0], myOwnClickListener,progressBarTimer, animation)
+                            var timerCountDownTimer4: CountDownTimer = setIntervalTimer(listOfTextView[0], myOwnClickListener,progressBarTimer, animation)
                             timerCountDownTimer.start()
 
 
@@ -143,8 +153,10 @@ class QuestionActivity : AppCompatActivity() {
                                     timerCountDownTimer2.cancel()
                                     timerCountDownTimer3.cancel()
                                     timerCountDownTimer4.cancel()
-                                    currentProgress=0
                                     myOwnClickListener.onClick(tw_activity_question_answer_1)
+
+
+
                                     println("ID W QUESTION ACTIVITY ${myOwnClickListener.currentIdQuestion}")
 
                                 }
@@ -160,8 +172,9 @@ class QuestionActivity : AppCompatActivity() {
                                     timerCountDownTimer2.cancel()
                                     timerCountDownTimer3.cancel()
                                     timerCountDownTimer4.cancel()
-                                    currentProgress=0
                                     myOwnClickListener.onClick(tw_activity_question_answer_2)
+
+
                                     println("ID W QUESTION ACTIVITY ${myOwnClickListener.currentIdQuestion}")
 
 
@@ -174,8 +187,10 @@ class QuestionActivity : AppCompatActivity() {
                                     timerCountDownTimer2.start()
                                     timerCountDownTimer3.cancel()
                                     timerCountDownTimer4.cancel()
-                                    currentProgress=0
                                     myOwnClickListener.onClick(tw_activity_question_answer_3)
+
+
+
                                     println("ID W QUESTION ACTIVITY ${myOwnClickListener.currentIdQuestion}")
 
                                 }
@@ -187,8 +202,10 @@ class QuestionActivity : AppCompatActivity() {
                                     timerCountDownTimer2.cancel()
                                     timerCountDownTimer3.start()
                                     timerCountDownTimer4.cancel()
-                                    currentProgress=0
                                     myOwnClickListener.onClick(tw_activity_question_answer_4)
+
+
+
                                     println("ID W QUESTION ACTIVITY ${myOwnClickListener.currentIdQuestion}")
 
 
@@ -250,27 +267,35 @@ class QuestionActivity : AppCompatActivity() {
 
 
 
-    private fun setIntervalTimer(textView: TextView?, myOwnButtonClickListener: MyOwnButtonClickListener, progressBar: ProgressBar): CountDownTimer{
+    private fun setIntervalTimer(textView: TextView?, myOwnButtonClickListener: MyOwnButtonClickListener, progressBar: ProgressBar, animation: ObjectAnimator): CountDownTimer{
 
 
-
-
-
-
-        val timer = object : CountDownTimer(10000, 1000)
+        val timer = object : CountDownTimer(totalTimeOnQestion, 1000)
         {
             override fun onTick(millisUntilFinished: Long) {
+                var currentTime= animation.getAnimatedValue("progress").toString().toInt()
 
                 var counter = millisUntilFinished / 1000
-//                timer = counter
+                if(currentTime in 21..45)
+                {
+                    progressBar.progressTintList = ColorStateList.valueOf(Color.parseColor("#CDFF920C"))
+                }else if (currentTime <= 15)
+                {
+                    progressBar.progressTintList = ColorStateList.valueOf(Color.parseColor("#CDAF1010"))
+                }
+
+                println("ANIMATION: ${currentTime}")
                 questionTimer.text = counter.toString()
-                currentProgress += 10
-                ObjectAnimator.ofInt(progressBar, "progress",currentProgress).start()
+
+
 
             }
 
             override fun onFinish() {
-                currentProgress=0
+
+                progressBar.progressTintList = ColorStateList.valueOf(Color.parseColor("#CD038350"))
+
+                animation.start()
 
                 cancel()
                 println("Koniec zewnętrzne")

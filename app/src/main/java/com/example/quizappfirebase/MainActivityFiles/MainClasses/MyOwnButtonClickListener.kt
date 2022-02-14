@@ -1,13 +1,17 @@
 package com.example.quizappfirebase.MainActivityFiles.MainClasses
 
+import android.animation.ObjectAnimator
 import android.content.Context
 import android.content.Intent
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.os.CountDownTimer
 import android.os.Looper
 import android.speech.tts.TextToSpeech
 import android.text.BoringLayout
 import android.view.View
 import android.widget.Button
+import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
@@ -33,18 +37,17 @@ class MyOwnButtonClickListener : View.OnClickListener {
     var checkExists: Boolean = false
     var userStatic: Statics = Statics()
     var timerTextView: TextView
-    var timer: Long= 0.toLong()
-    var questionIsActive: Boolean = false
     var timeCountDownTimer: CountDownTimer? = null
     var listOfUserAnswers: ArrayList<String> = arrayListOf()
-
-
+    var progressBar:ProgressBar? = null
+    var currentProgress:Int = 0
+    var animation: ObjectAnimator
 
 
     constructor(currentIdQuestion: Int, textViewList: ArrayList<TextView>, questionsList: ArrayList<Question>,
                 counterCorrectQuestion: Int, questionName: String, checkExists: Boolean,
-                userStatic:Statics, timerTextView: TextView,
-                clickListener: MyOwnButtonClickListener
+                userStatic:Statics, timerTextView: TextView, progressBar: ProgressBar, currentProgress:Int,
+                animation: ObjectAnimator
 
     ){
         this.currentIdQuestion = currentIdQuestion
@@ -55,28 +58,9 @@ class MyOwnButtonClickListener : View.OnClickListener {
         this.checkExists = checkExists
         this.userStatic = userStatic
         this.timerTextView = timerTextView
-        this.timeCountDownTimer = timeCountDownTimer
-
-
-
-
-
-
-
-    }
-    constructor(currentIdQuestion: Int, textViewList: ArrayList<TextView>, questionsList: ArrayList<Question>,
-                counterCorrectQuestion: Int, questionName: String, checkExists: Boolean,
-                userStatic:Statics, timerTextView: TextView
-
-    ){
-        this.currentIdQuestion = currentIdQuestion
-        this.textViewList = textViewList
-        this.questionsList = questionsList
-        this.counterCorrectQuestion = counterCorrectQuestion
-        this.questionName = questionName
-        this.checkExists = checkExists
-        this.userStatic = userStatic
-        this.timerTextView = timerTextView
+        this.progressBar = progressBar
+        this.currentProgress = currentProgress
+        this.animation = animation
 
 
 
@@ -88,6 +72,11 @@ class MyOwnButtonClickListener : View.OnClickListener {
 
 
     override fun onClick(v: View?) {
+
+        progressBar?.progressTintList = ColorStateList.valueOf(Color.parseColor("#CD038350"))
+
+        animation.start()
+
 
         println("INDEKS: ${currentIdQuestion+1}")
         currentIdQuestion++

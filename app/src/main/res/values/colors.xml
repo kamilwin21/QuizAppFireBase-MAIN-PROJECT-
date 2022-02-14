@@ -11,6 +11,9 @@
     <color name="gray_1">#87817A</color>
     <color name="gray_2">#A39D95</color>
     <color name="textolor">#2FB9CA</color>
+    <color name="custom_green">#CD038350</color>
+    <color name="custom_red">#CDAF1010</color>
+    <color name="custom_orange">#CDFF920C</color>
 
 
 </resources>

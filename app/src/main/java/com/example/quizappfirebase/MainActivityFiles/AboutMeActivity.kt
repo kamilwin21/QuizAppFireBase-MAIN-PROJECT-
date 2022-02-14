@@ -1,12 +1,17 @@
 package com.example.quizappfirebase.MainActivityFiles
 
+import android.animation.ObjectAnimator
+import android.animation.ValueAnimator
 import android.graphics.Color
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.os.Handler
 import android.view.View
+import android.view.animation.DecelerateInterpolator
 import android.widget.Button
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import com.example.quizappfirebase.MainActivityFiles.MainClasses.Question
@@ -21,62 +26,54 @@ import kotlin.streams.toList
 import kotlin.random.Random
 
 class AboutMeActivity : AppCompatActivity() {
+
+    var currentProgress: Int = 10
     var totalTime = 5000.toLong()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_about_me)
+
+
 
         var startBtn: Button = findViewById<Button>(R.id.startTimer)
         var stopBtn: Button = findViewById<Button>(R.id.stopTimer)
         var timeResult: TextView = findViewById(R.id.timer)
 
+        var progressBar = findViewById<ProgressBar>(R.id.progress_bar_timer)
 
 
-        var timer1 = object : CountDownTimer(5000, 1000)
+        var animation = ObjectAnimator.ofInt(progressBar, "progress", 0, 100)
+        animation.setDuration(10000)
+        animation.setInterpolator(DecelerateInterpolator())
+        animation.start()
+//        var timerObject = ObjectAnimator.ofInt(progressBar,"progress", currentProgress)
+//        timerObject.start()
+
+
+        var timer = object: CountDownTimer(10000, 1000)
         {
             override fun onTick(millisUntilFinished: Long) {
-                timer.text = (millisUntilFinished/1000).toString()
+                timer.text = "${millisUntilFinished/1000}"
+
+
+//                timer.text = "${timerObject.currentPlayTime}"
+
+
             }
 
             override fun onFinish() {
-                timer.text = "Koniec odliczania"
-                println("Koniec")
                 cancel()
             }
 
-        }
-        var timer2 = object : CountDownTimer(8000, 1000)
-        {
-            override fun onTick(millisUntilFinished: Long) {
-
-                timer.text = (millisUntilFinished/1000).toString()
-            }
-
-            override fun onFinish() {
-                timer.text = "Koniec odliczania"
-                println("Koniec")
-                cancel()
-            }
-
-        }
-        var timer3 = object : CountDownTimer(12000, 1000)
-        {
-            override fun onTick(millisUntilFinished: Long) {
-
-                timer.text = (millisUntilFinished/1000).toString()
-            }
-
-            override fun onFinish() {
-                timer.text = "Koniec odliczania"
-                println("Koniec")
-                cancel()
-            }
-
-        }
+        }.start()
 
         startBtn.setOnClickListener{
 
+        timer.start()
+        animation.start()
 
+//            currentProgress+=10
 
 
 
@@ -84,19 +81,13 @@ class AboutMeActivity : AppCompatActivity() {
         stopBtn.setOnClickListener{
 
 
-            timer1.cancel()
-            timer2.start()
-            timer3.cancel()
 
-           //timer.onFinish()
         }
 
         setTimer.setOnClickListener{
             totalTime = 7000
 
-            timer1.cancel()
-            timer2.cancel()
-            timer3.start()
+
         }
 
     }
