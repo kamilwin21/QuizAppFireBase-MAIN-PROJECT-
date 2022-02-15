@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/gray"
+    tools:context=".MainActivityFiles.SystemUserProfileActivity">
+
+
+
+
+    <TextView
+        android:id="@+id/tw_userName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/userName"
+        />
+    <TextView
+        android:id="@+id/tw_userSurname"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/userSurname"
+        />
+    <TextView
+        android:id="@+id/tw_userAge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/userAge"
+        />
+    <TextView
+        android:id="@+id/tw_userEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/userEmail"
+        />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view_user_profile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/gray_2"
+
+        />
+
+</LinearLayout>

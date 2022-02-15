@@ -2,14 +2,21 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
+    android:id="@+id/id_layout_position_users_in_users_adapter"
+    android:orientation="vertical">
+<!--    android:background="@drawable/radius2"-->
 
-    >
+
 
     <TextView
         android:id="@+id/tw_in_users_adapter"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/white"
+        android:hint="@string/user_name_surname"
+        android:textSize="20dp"
 
         />
 </LinearLayout>

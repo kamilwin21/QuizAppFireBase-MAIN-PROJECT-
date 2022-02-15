@@ -15,12 +15,14 @@
         <entry key="..\:/Katalog_aplikacji_android_studio/QuizAppFireBase/app/src/main/res/layout/activity_question.xml" value="0.25416666666666665" />
         <entry key="..\:/Katalog_aplikacji_android_studio/QuizAppFireBase/app/src/main/res/layout/activity_registration.xml" value="0.264" />
         <entry key="..\:/Katalog_aplikacji_android_studio/QuizAppFireBase/app/src/main/res/layout/activity_results_quiz.xml" value="0.24456521739130435" />
+        <entry key="..\:/Katalog_aplikacji_android_studio/QuizAppFireBase/app/src/main/res/layout/activity_system_user_profile2.xml" value="0.25" />
         <entry key="..\:/Katalog_aplikacji_android_studio/QuizAppFireBase/app/src/main/res/layout/fragment_categories.xml" value="0.1" />
         <entry key="..\:/Katalog_aplikacji_android_studio/QuizAppFireBase/app/src/main/res/layout/fragment_main_page.xml" value="0.1" />
         <entry key="..\:/Katalog_aplikacji_android_studio/QuizAppFireBase/app/src/main/res/layout/fragment_users.xml" value="0.12916666666666668" />
         <entry key="..\:/Katalog_aplikacji_android_studio/QuizAppFireBase/app/src/main/res/layout/layout_nav_menu_profile.xml" value="0.25416666666666665" />
         <entry key="..\:/Katalog_aplikacji_android_studio/QuizAppFireBase/app/src/main/res/layout/layout_position_categories_in_adaptercategory.xml" value="0.264" />
-        <entry key="..\:/Katalog_aplikacji_android_studio/QuizAppFireBase/app/src/main/res/layout/layout_position_users_in_users_adapter.xml" value="0.1" />
+        <entry key="..\:/Katalog_aplikacji_android_studio/QuizAppFireBase/app/src/main/res/layout/layout_position_user_profile_adapter.xml" value="0.1" />
+        <entry key="..\:/Katalog_aplikacji_android_studio/QuizAppFireBase/app/src/main/res/layout/layout_position_users_in_users_adapter.xml" value="0.25" />
         <entry key="..\:/Katalog_aplikacji_android_studio/QuizAppFireBase/app/src/main/res/layout/nav_menu_header.xml" value="0.25416666666666665" />
         <entry key="..\:/Katalog_aplikacji_android_studio/QuizAppFireBase/app/src/main/res/menu/nav_menu.xml" value="0.264" />
       </map>

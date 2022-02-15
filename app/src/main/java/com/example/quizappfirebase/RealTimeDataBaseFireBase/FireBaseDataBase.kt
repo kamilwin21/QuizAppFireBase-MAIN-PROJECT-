@@ -37,8 +37,11 @@ class FireBaseDataBase {
                     {
                         val user = h.getValue(User::class.java)
                         usersList.add(user!!)
+
+
                         recyclerView.layoutManager =
                             LinearLayoutManager(context)
+
                         recyclerView.adapter =
                             UsersAdapter(context, usersList)
 

@@ -34,8 +34,9 @@ import kotlin.random.Random
 
 class QuestionActivity : AppCompatActivity() {
     private var doubleBackClick:Boolean = false
-    var totalTimeOnQestion: Long = 25000
+    var totalTimeOnQestion: Long = 25000 // 1000 = 1 seconds, 25000 = 25 seconds
     var currentProgress = 0
+    var sizeOfQustionInQuest: Int = 3 // Count of question shows for user in one quiz
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_question)
@@ -257,7 +258,15 @@ class QuestionActivity : AppCompatActivity() {
             helpList.add(hs)
         }
         randQuestionList = arrayListOf()
-        randQuestionList = helpList
+
+        for(i in 0 until sizeOfQustionInQuest)
+        {
+            randQuestionList.add(helpList[i])
+        }
+
+       // randQuestionList = helpList
+
+
 
 
         return randQuestionList

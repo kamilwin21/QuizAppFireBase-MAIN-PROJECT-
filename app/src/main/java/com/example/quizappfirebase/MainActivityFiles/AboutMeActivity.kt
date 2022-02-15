@@ -14,6 +14,7 @@ import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.annotation.RequiresApi
+import com.example.quizappfirebase.MainActivityFiles.FunctionalClasses.SortingList
 import com.example.quizappfirebase.MainActivityFiles.MainClasses.Question
 import com.example.quizappfirebase.R
 import kotlinx.android.synthetic.main.activity_about_me.*
@@ -30,6 +31,7 @@ class AboutMeActivity : AppCompatActivity() {
     var currentProgress: Int = 10
     var totalTime = 5000.toLong()
 
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_about_me)
@@ -70,6 +72,22 @@ class AboutMeActivity : AppCompatActivity() {
 
         startBtn.setOnClickListener{
 
+
+            var array = arrayListOf<Int>(5,2,1,10,3,6,4)
+            println("Lista przed sortowaniem: ")
+            for (i in array)
+            {
+
+                print("${i}, ")
+
+
+            }
+            println()
+            println("Lista po sortowaniu: ")
+
+
+
+            println()
         timer.start()
         animation.start()
 
