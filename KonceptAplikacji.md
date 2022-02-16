@@ -11,6 +11,10 @@ Funkcjonalności wprowadzone:
         i przejdzie do następnego pytania.
       * Po przejściu przez wszystkie pytania użytkownik zostaje przekierowany do nowej aktywności gdzie użytkownik informowany jest o swoich statystykach w quizie.
       * Po wciśnięciu przycisku zakończ(Odnośnik do punktu wyżej) użytkownik zostanie przekierowany do kategorii quizów oraz jego statystyki zostaną zapisane w bazie danych.
+      * Po rozpoczęciu quizu pojawia się pasek na górze okna. Pasek ten pokazuje ile czasu zostało jeszcze użytkownikowi na wybranie odpowiedzi. 
+        Pasek ten od 100% do 46% jest zielony, od 45% do 21% jest pomarańczowy, a od 15% do zera jest czerwony.
+        Pasek po zakończonym czasie na udzielenie odpowiedzi, zmienia kolor na zielony i odliczanie następuje jeszcze raz. 
+        Użytkownik, który wybrał odpowiedź gdy pasek jest żółty lub czerwony, pasek ten zmienia kolor na zielony.
     
 6. Funkcjonalności związane z wyświetlaniem użytkowników.
       * Użytkownik po zalogowaniu do systemu może wyświetlić listę zarejestrowanych użytkowniów.
