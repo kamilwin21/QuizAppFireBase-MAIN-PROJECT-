@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.quizappfirebase.LevelPackage.Level
 import com.example.quizappfirebase.MainActivityFiles.Adapters.AdapterCategory
 import com.example.quizappfirebase.MainActivityFiles.Adapters.UsersAdapter
 import com.example.quizappfirebase.MainActivityFiles.MainClasses.Category
@@ -39,13 +40,16 @@ class FireBaseDataBase {
                         usersList.add(user!!)
 
 
-                        recyclerView.layoutManager =
-                            LinearLayoutManager(context)
-
-                        recyclerView.adapter =
-                            UsersAdapter(context, usersList)
 
                     }
+
+                    recyclerView.layoutManager =
+                        LinearLayoutManager(context)
+
+                    recyclerView.adapter =
+                        UsersAdapter(context, usersList)
+
+
                 }
             }
 
@@ -60,6 +64,8 @@ class FireBaseDataBase {
 
 
     fun readCategoriesFromFirebaseDatabase(context: Context, recyclerView: RecyclerView, categoriesList: ArrayList<Category>){
+
+
         database?.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 if (snapshot!!.exists()) {
@@ -73,29 +79,93 @@ class FireBaseDataBase {
 
                         query.addValueEventListener(object : ValueEventListener{
                             override fun onDataChange(snapshot: DataSnapshot) {
-                                if (snapshot.exists())
-                                {
+                                var queryLevel: Query = FirebaseDatabase.getInstance("https://quizfirebase-4cb19-default-rtdb.europe-west1.firebasedatabase.app/").getReference("Users")
+                                    .child(FirebaseAuth.getInstance().currentUser!!.uid).child("level")
 
-                                    for (s in snapshot.children)
-                                    {
-                                        val static = s.getValue(Statics::class.java)
-                                        statics.add(static)
-                                    }
+                               queryLevel.addValueEventListener(object :ValueEventListener{
+                                   override fun onDataChange(snapshot1: DataSnapshot) {
+                                       if(snapshot1.exists())
+                                       {
+                                           var userLevel: Level = Level()
+                                           for (level in snapshot1.children)
+                                           {
+                                               if (level.key == "level")
+                                               {
+                                                   userLevel.setLevel(level.value.toString().toInt())
+                                               }
+                                               if (level.key == "experiencePoints")
+                                               {
+                                                   userLevel.setExperiencePoints(level.value.toString().toInt())
+                                                   println("LEVEL1: ${userLevel.getExperiencePoints()}")
+                                               }
 
-                                    recyclerView.layoutManager =
-                                        GridLayoutManager(context,2)
-                                    recyclerView.adapter =
-                                        AdapterCategory(context, categoriesList,statics)
 
-                                    println("Statystyki= ${statics}")
-                                }else if (!snapshot.exists())
-                                {
 
-                                    recyclerView.layoutManager =
-                                        GridLayoutManager(context,2)
-                                    recyclerView.adapter =
-                                        AdapterCategory(context, categoriesList,statics)
-                                }
+                                           }
+
+
+                                           if (snapshot.exists())
+                                           {
+
+                                               for (s in snapshot.children)
+                                               {
+                                                   val static = s.getValue(Statics::class.java)
+                                                   statics.add(static)
+                                               }
+
+                                                recyclerView.layoutManager =
+                                                   GridLayoutManager(context,2)
+                                               recyclerView.adapter =
+                                                   AdapterCategory(context, categoriesList,statics, userLevel)
+
+                                           }else if (!snapshot.exists())
+                                           {
+
+                                               recyclerView.layoutManager =
+                                                   GridLayoutManager(context,2)
+                                               recyclerView.adapter =
+                                                   AdapterCategory(context, categoriesList,statics, userLevel)
+                                           }
+
+
+
+
+                                       }
+
+                                   }
+
+                                   override fun onCancelled(error: DatabaseError) {
+                                       TODO("Not yet implemented")
+                                   }
+
+
+                               })
+
+
+
+//                                if (snapshot.exists())
+//                                {
+//
+//                                    for (s in snapshot.children)
+//                                    {
+//                                        val static = s.getValue(Statics::class.java)
+//                                        statics.add(static)
+//                                    }
+//
+//                                    recyclerView.layoutManager =
+//                                        GridLayoutManager(context,2)
+//                                    recyclerView.adapter =
+//                                        AdapterCategory(context, categoriesList,statics, null)
+//
+//                                    println("Statystyki= ${statics}")
+//                                }else if (!snapshot.exists())
+//                                {
+//
+//                                    recyclerView.layoutManager =
+//                                        GridLayoutManager(context,2)
+//                                    recyclerView.adapter =
+//                                        AdapterCategory(context, categoriesList,statics,null)
+//                                }
 
 
 

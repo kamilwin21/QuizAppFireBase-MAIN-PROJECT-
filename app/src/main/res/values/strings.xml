@@ -39,7 +39,8 @@
     <string name="userSurname">User Surname</string>
     <string name="userAge">User age</string>
     <string name="userEmail">User E-mail</string>
-
+    <string name="userLevel">Level</string>
+    <string name="userExperiencePoints">Experience Points</string>
 
 
 </resources>

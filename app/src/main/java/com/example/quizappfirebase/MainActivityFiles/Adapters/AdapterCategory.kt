@@ -13,6 +13,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.example.quizappfirebase.LevelPackage.Level
 import com.example.quizappfirebase.MainActivityFiles.MainActivity
 import com.example.quizappfirebase.MainActivityFiles.MainClasses.Category
 import com.example.quizappfirebase.MainActivityFiles.MainClasses.Question
@@ -27,7 +28,7 @@ import java.io.Serializable
 import kotlin.coroutines.coroutineContext
 import kotlin.random.Random
 
-class AdapterCategory (val context: Context,val categoriesList: ArrayList<Category>, val statics: ArrayList<Statics?>): RecyclerView.Adapter<MyViewHolder>(){
+class AdapterCategory (val context: Context,val categoriesList: ArrayList<Category>, val statics: ArrayList<Statics?>,val level: Level?): RecyclerView.Adapter<MyViewHolder>(){
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val positionList = inflater.inflate(R.layout.layout_position_categories_in_adaptercategory,parent,false)
@@ -81,6 +82,8 @@ class AdapterCategory (val context: Context,val categoriesList: ArrayList<Catego
                         intentQuestion.putExtra("idStatic", static?.id)
                         intentQuestion.putExtra("quizNameStatic", static?.quizName)
                         intentQuestion.putExtra("pointsReceivedStatic", static?.pointsReceived)
+                        intentQuestion.putExtra("level", level?.getLevel())
+                        intentQuestion.putExtra("points", level?.getExperiencePoints())
                         //println("ADAPTER: ${statics}")
                         intentQuestion.putExtra("exists", checkExists)
                         holder.view.context.startActivity(intentQuestion)
@@ -90,15 +93,7 @@ class AdapterCategory (val context: Context,val categoriesList: ArrayList<Catego
 
                     }
 
-//                    else {
-//                        val intentQuestion =  Intent(holder.view.context.applicationContext, QuestionActivity::class.java)
-//                        intentQuestion.putExtra("question_category", categoriesList[position].categoryName)
-//                        intentQuestion.putExtra("id", categoriesList[position].id)
-//                        //println("ADAPTER: ${statics}")
-//                        intentQuestion.putExtra("exists", checkExists)
-//                        holder.view.context.startActivity(intentQuestion)
-//                        it.background = ContextCompat.getDrawable(holder.view.context, R.drawable.radius2)
-//                    }
+
                 }
 
 
@@ -109,6 +104,8 @@ class AdapterCategory (val context: Context,val categoriesList: ArrayList<Catego
                 intentQuestion.putExtra("idStatic", static?.id)
                 intentQuestion.putExtra("quizNameStatic", static?.quizName)
                 intentQuestion.putExtra("pointsReceivedStatic", static?.pointsReceived)
+                intentQuestion.putExtra("level", level?.getLevel())
+                intentQuestion.putExtra("points", level?.getExperiencePoints())
                 //println("ADAPTER: ${statics}")
                 intentQuestion.putExtra("exists", checkExists)
                 holder.view.context.startActivity(intentQuestion)

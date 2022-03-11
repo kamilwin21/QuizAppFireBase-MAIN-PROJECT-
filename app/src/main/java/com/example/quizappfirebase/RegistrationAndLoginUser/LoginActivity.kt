@@ -38,7 +38,9 @@ class LoginActivity : AppCompatActivity() {
             //Wczytywanie danych do logowania z edittext
             // val email:String = editText_EmailAdress_Login.text.toString()
             //  val password:String = editText_password_Login.text.toString()
-            val email:String = "MKowal@o2.pl"
+//            val email:String = "ElaM@gmail.com"
+//            val password:String = "12345678"
+            val email:String = "kotadam1234164@o2.pl"
             val password:String = "12345678"
             var tablica: ArrayList<Char> = ArrayList<Char>()
             for (i in email)

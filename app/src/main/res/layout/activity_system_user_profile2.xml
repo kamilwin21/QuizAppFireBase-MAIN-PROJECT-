@@ -11,28 +11,135 @@
 
 
 
-    <TextView
-        android:id="@+id/tw_userName"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/userName"
-        />
-    <TextView
-        android:id="@+id/tw_userSurname"
+        android:orientation="horizontal"
+        >
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginBottom="5dp"
+            android:background="@color/white"
+            />
+        <TextView
+            android:id="@+id/tw_userName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+
+            android:layout_marginTop="40dp"
+            android:textColor="@color/white"
+            android:text="@string/userName"
+            android:layout_marginLeft="10dp"
+            />
+        <TextView
+            android:id="@+id/tw_userSurname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginLeft="10dp"
+            android:textColor="@color/white"
+
+            android:text="@string/userSurname"
+            />
+
+
+    </LinearLayout>
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/userSurname"
-        />
+        android:orientation="vertical"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20dp"
+                android:layout_marginLeft="5dp"
+                android:layout_weight="2"
+                android:textColor="@color/white"
+                android:text="@string/userLevel"/>
+
+            <TextView
+                android:id="@+id/user_level_at_user_profile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20dp"
+                android:layout_marginRight="5dp"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:textColor="@color/white"
+                />
+
+        </LinearLayout>
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:textSize="20dp"
+                android:layout_weight="2"
+                android:textColor="@color/white"
+                android:text="@string/userExperiencePoints"/>
+            <TextView
+                android:id="@+id/user_experience_points_at_user_profile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20dp"
+                android:layout_marginRight="5dp"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:textColor="@color/white"
+                />
+
+        </LinearLayout>
+
+        <ProgressBar
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:id="@+id/progress_bar_timer_user_profile"
+            android:layout_centerInParent = "true"
+            android:layout_width="match_parent"
+            android:scaleY="2"
+            android:theme="@style/ProgressBarStyle"
+            android:indeterminate="false"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_height="30dp"/>
+
+
+    </LinearLayout>
+
+
+
     <TextView
         android:id="@+id/tw_userAge"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textColor="@color/white"
         android:text="@string/userAge"
         />
     <TextView
         android:id="@+id/tw_userEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textColor="@color/white"
+
         android:text="@string/userEmail"
         />
 

@@ -15,6 +15,7 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import com.example.quizappfirebase.LevelPackage.Level
 import com.example.quizappfirebase.MainActivityFiles.ResultsQuizActivity
 import com.example.quizappfirebase.R
 import kotlinx.android.synthetic.main.activity_question.*
@@ -42,12 +43,14 @@ class MyOwnButtonClickListener : View.OnClickListener {
     var progressBar:ProgressBar? = null
     var currentProgress:Int = 0
     var animation: ObjectAnimator
+    var userLevel: Level
+
 
 
     constructor(currentIdQuestion: Int, textViewList: ArrayList<TextView>, questionsList: ArrayList<Question>,
                 counterCorrectQuestion: Int, questionName: String, checkExists: Boolean,
                 userStatic:Statics, timerTextView: TextView, progressBar: ProgressBar, currentProgress:Int,
-                animation: ObjectAnimator
+                animation: ObjectAnimator, userLevel: Level
 
     ){
         this.currentIdQuestion = currentIdQuestion
@@ -61,6 +64,8 @@ class MyOwnButtonClickListener : View.OnClickListener {
         this.progressBar = progressBar
         this.currentProgress = currentProgress
         this.animation = animation
+        this.userLevel = userLevel
+
 
 
 
@@ -104,6 +109,7 @@ class MyOwnButtonClickListener : View.OnClickListener {
 
         }else if (currentIdQuestion == questionsList.size){
             counterCorrectQuestion = countCorrectUserAnswerWithList(questionsList, listOfUserAnswers)
+            animation.cancel()
             goToResultsQuizActivity(v, counterCorrectQuestion, questionsList.size, questionName, checkExists,userStatic)
 
 
@@ -188,6 +194,8 @@ class MyOwnButtonClickListener : View.OnClickListener {
         intentResultsQuizActivity.putExtra("userStaticID", userStatic.id)
         intentResultsQuizActivity.putExtra("userStaticQuizName", userStatic.quizName)
         intentResultsQuizActivity.putExtra("userStaticPointsReceived", userStatic.pointsReceived)
+        intentResultsQuizActivity.putExtra("level", userLevel.getLevel())
+        intentResultsQuizActivity.putExtra("points", userLevel.getExperiencePoints())
         intentResultsQuizActivity.flags = Intent.FLAG_ACTIVITY_NEW_TASK
         v!!.context.applicationContext.startActivity(intentResultsQuizActivity)
     }
@@ -234,12 +242,6 @@ class MyOwnButtonClickListener : View.OnClickListener {
         textViewList[3].text = randomAnswers.answer3
         textViewList[4].text = randomAnswers.answer4
 
-
-//        textViewList[0].text = questionsList[id].title
-//        textViewList[1].text = questionsList[id].answer1
-//        textViewList[2].text = questionsList[id].answer2
-//        textViewList[3].text = questionsList[id].answer3
-//        textViewList[4].text = questionsList[id].answer4
 
 
 

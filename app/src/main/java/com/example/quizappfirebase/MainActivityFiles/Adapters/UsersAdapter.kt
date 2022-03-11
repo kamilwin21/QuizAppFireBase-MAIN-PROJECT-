@@ -31,10 +31,12 @@ class UsersAdapter(val context: Context, val usersList: ArrayList<User>) : Recyc
             val intentUser = Intent(holder.view.context.applicationContext, SystemUserProfileActivity::class.java)
             intentUser.putExtra("userId", usersList[position].uid)
             intentUser.putExtra("userEmail", usersList[position].email)
-            intentUser.putExtra("userPassword", usersList[position].password)
             intentUser.putExtra("userName", usersList[position].name)
             intentUser.putExtra("userSurname", usersList[position].surname)
             intentUser.putExtra("userAge", usersList[position].age)
+            intentUser.putExtra("userLevel", usersList[position].level.getLevel())
+            intentUser.putExtra("userExperiencePoints", usersList[position].level.getExperiencePoints())
+
             holder.view.context.startActivity(intentUser)
 
         }

@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.quizappfirebase.LevelPackage.Level
 import com.example.quizappfirebase.MainActivityFiles.Adapters.AdapterCategory
 import com.example.quizappfirebase.MainActivityFiles.MainClasses.Category
 import com.example.quizappfirebase.MainActivityFiles.MainClasses.Statics
@@ -125,29 +126,59 @@ class CategoriesFragment : Fragment() {
 
                         query.addValueEventListener(object : ValueEventListener{
                             override fun onDataChange(snapshot: DataSnapshot) {
-                                if (snapshot.exists())
-                                {
 
-                                    for (s in snapshot.children)
-                                    {
-                                        val static = s.getValue(Statics::class.java)
-                                        statics.add(static)
+                                var queryLevel: Query = FirebaseDatabase.getInstance("https://quizfirebase-4cb19-default-rtdb.europe-west1.firebasedatabase.app/").getReference("Users")
+                                    .child(FirebaseAuth.getInstance().currentUser!!.uid).child("level")
+                                queryLevel.addValueEventListener(object: ValueEventListener {
+                                    override fun onDataChange(snapshot1: DataSnapshot) {
+                                        if(snapshot1.exists())
+                                        {
+                                            var level: Level? = Level()
+                                            for (user in snapshot1.children)
+                                            {
+                                                level = user.getValue(Level::class.java)
+
+
+                                            }
+
+
+                                            if (snapshot.exists())
+                                            {
+
+                                                for (s in snapshot.children)
+                                                {
+                                                    val static = s.getValue(Statics::class.java)
+                                                    statics.add(static)
+                                                }
+
+                                                recycler_view_categories_fragment.layoutManager =
+                                                    GridLayoutManager(context,2)
+                                                recycler_view_categories_fragment.adapter =
+                                                    AdapterCategory(requireContext(), categoriesList,statics, level)
+
+                                                println("Statystyki= ${statics}")
+                                            }else if (!snapshot.exists())
+                                            {
+
+                                                recycler_view_categories_fragment.layoutManager =
+                                                    GridLayoutManager(context,2)
+                                                recycler_view_categories_fragment.adapter =
+                                                    AdapterCategory(requireContext(), categoriesList,statics, level)
+                                            }
+
+
+
+
+                                        }
                                     }
 
-                                    recycler_view_categories_fragment.layoutManager =
-                                        GridLayoutManager(context,2)
-                                    recycler_view_categories_fragment.adapter =
-                                        AdapterCategory(requireContext(), categoriesList,statics)
+                                    override fun onCancelled(error: DatabaseError) {
+                                        TODO("Not yet implemented")
+                                    }
 
-                                    println("Statystyki= ${statics}")
-                                }else if (!snapshot.exists())
-                                {
 
-                                    recycler_view_categories_fragment.layoutManager =
-                                        GridLayoutManager(context,2)
-                                    recycler_view_categories_fragment.adapter =
-                                        AdapterCategory(requireContext(), categoriesList,statics)
-                                }
+                                })
+
 
 
 

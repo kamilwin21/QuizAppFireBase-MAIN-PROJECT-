@@ -10,6 +10,8 @@ import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
+import com.example.quizappfirebase.LevelPackage.ExperiencePerLevel
+import com.example.quizappfirebase.LevelPackage.Level
 import com.example.quizappfirebase.MainActivityFiles.Fragments.CategoriesFragment
 import com.example.quizappfirebase.MainActivityFiles.Fragments.MainPageFragment
 
@@ -138,14 +140,18 @@ class MainActivity : AppCompatActivity() {
                         {
                             user?.email = currentUser[count].second
                         }
-                        if (currentUser[count].first == "password")
+                        if(currentUser[count].first == "level")
                         {
-                            user?.password = currentUser[count].second
+//                            user?.level.setLevel() = currentUser[count].second
+                            user?.level = h.getValue(Level::class.java)!!
+
                         }
+
+
                         println("==================================================")
                         println("USER: edit ${user}")
                         println("==================================================")
-
+                        println("USER LEVEL: ${user?.level?.getExperiencePoints()}")
 
                         //Toast.makeText(applicationContext, "${}", Toast.LENGTH_LONG).show()
                         if (currentUser[count].first == "name")
@@ -159,9 +165,52 @@ class MainActivity : AppCompatActivity() {
 
                     if (name.isNotBlank())
                     {
-                        tw_layout_nav_menu_profile.text = user!!.name
+                        tw_layout_nav_menu_profile.text = "${user!!.name} ${user!!.surname}"
                     }else{
                         tw_layout_nav_menu_profile.text = "No User"
+                    }
+                    tw_layout_nav_menu_profile_level.text = "${user!!.level.getLevel()} Lvl"
+
+                    tw_layout_nav_menu_profile_experience.text = "${user.level.getExperiencePoints()}/ ${ExperiencePerLevel.experiencePerLevel[user.level.getLevel()+1]}"
+                    var totalScoreToReachNextLevel: Int = ExperiencePerLevel.experiencePerLevel[user.level.getLevel()+1] - ExperiencePerLevel.experiencePerLevel[user.level.getLevel()]
+                    var userCurrentExperiencePoints: Int = ExperiencePerLevel.experiencePerLevel[user.level.getLevel()+1] - user.level.getExperiencePoints()
+
+                    println("totalScore: ${totalScoreToReachNextLevel}")
+                    println("userCurrent: ${userCurrentExperiencePoints}")
+                    progress_bar_nav_menu_profile.max = totalScoreToReachNextLevel
+                    progress_bar_nav_menu_profile.progress = totalScoreToReachNextLevel - userCurrentExperiencePoints
+
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+        })
+
+    //Reading from database user level and experience points
+    var queryLevel: Query = FirebaseDatabase.getInstance("https://quizfirebase-4cb19-default-rtdb.europe-west1.firebasedatabase.app/").getReference("Users")
+        .child(FirebaseAuth.getInstance().currentUser!!.uid).child("level")
+
+        queryLevel.addValueEventListener(object : ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if(snapshot.exists())
+                {
+
+                    var level: Level = Level()
+                    for (i in snapshot.children)
+                    {
+                        if(i.key == "level")
+                        {
+                            level.setLevel(i.value.toString().toInt())
+                        }
+                        if(i.key == "experiencePoints")
+                        {
+                            level.setExperiencePoints(i.value.toString().toInt())
+                        }
+
+
                     }
 
 
@@ -174,6 +223,7 @@ class MainActivity : AppCompatActivity() {
             }
 
         })
+
 
         toggle = ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close)
         drawerLayout.addDrawerListener(toggle)

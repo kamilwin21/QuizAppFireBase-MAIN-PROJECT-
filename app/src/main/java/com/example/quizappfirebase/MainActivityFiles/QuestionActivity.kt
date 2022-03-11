@@ -15,6 +15,7 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import com.example.quizappfirebase.LevelPackage.Level
 import com.example.quizappfirebase.MainActivityFiles.MainClasses.Category
 import com.example.quizappfirebase.MainActivityFiles.MainClasses.MyOwnButtonClickListener
 import com.example.quizappfirebase.MainActivityFiles.MainClasses.Question
@@ -24,6 +25,7 @@ import com.example.quizappfirebase.RegistrationAndLoginUser.Classes.User
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_about_me.*
 import kotlinx.android.synthetic.main.activity_question.*
+import kotlinx.android.synthetic.main.activity_system_user_profile2.*
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
@@ -41,6 +43,8 @@ class QuestionActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_question)
 
+
+
             //Properties of Progress Bar in questions
             //===================================================================================
             val progressBarTimer = findViewById<ProgressBar>(R.id.progress_bar_timer)
@@ -51,6 +55,7 @@ class QuestionActivity : AppCompatActivity() {
             animation.duration = totalTimeOnQestion
             animation.interpolator = DecelerateInterpolator()
             animation.start()
+
             //===================================================================================
 
 
@@ -72,7 +77,12 @@ class QuestionActivity : AppCompatActivity() {
                 val quizNameStatic: String = intent.getStringExtra("quizNameStatic").toString()
                 val pointsReceivedStatic: String = intent.getStringExtra("pointsReceivedStatic").toString()
                 val userStatic: Statics = Statics(idStatic,quizNameStatic,pointsReceivedStatic)
-                //println("ADAPTER: ${userStatic}")
+                val userLevel: Level = Level()
+                userLevel.setLevel(intent.getIntExtra("level",-1))
+                userLevel.setExperiencePoints(intent.getIntExtra("points",-1))
+
+
+
                 read_questions_in_category_from_database(object :MyCallback{
                     override fun onCallback(list: ArrayList<Question>) {
 
@@ -129,7 +139,9 @@ class QuestionActivity : AppCompatActivity() {
 
 
                                 var myOwnClickListener = MyOwnButtonClickListener(currentIdQuestion,listOfTextView,randList,counterCorrectQuestion,
-                                                        questionName,checkExisits,userStatic, questionTimer, progressBarTimer, currentProgress, animation)
+                                                        questionName,checkExisits,userStatic, questionTimer, progressBarTimer, currentProgress, animation,
+                                                        userLevel
+                                                        )
 
                             showQuestion(randList, currentIdQuestion, myOwnClickListener)
 

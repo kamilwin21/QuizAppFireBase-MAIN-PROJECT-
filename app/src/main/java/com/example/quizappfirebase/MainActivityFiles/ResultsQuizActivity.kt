@@ -8,12 +8,15 @@ import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import com.example.quizappfirebase.LevelPackage.ExperiencePerLevel
+import com.example.quizappfirebase.LevelPackage.Level
 import com.example.quizappfirebase.MainActivityFiles.MainClasses.Statics
 import com.example.quizappfirebase.R
 import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_results_quiz.*
+import java.sql.SQLOutput
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -74,8 +77,16 @@ class ResultsQuizActivity : AppCompatActivity() {
 
 
 
+
+
+
         if (intent.hasExtra("exists"))
         {
+            var userLevel: Level = Level()
+            userLevel.setLevel(intent.getIntExtra("level",-1))
+            userLevel.setExperiencePoints(intent.getIntExtra("points", -1))
+
+
             if (!intent.getBooleanExtra("exists", false))
             {
                 val userStatics: Statics = Statics(randomId.toString(),intent.getStringExtra("quiz_name").toString(), TOTALSCOREFORCURRENTQUIZ )
@@ -96,7 +107,21 @@ class ResultsQuizActivity : AppCompatActivity() {
                 val saveUserStatisticsInFireBase: DatabaseReference = FirebaseDatabase.getInstance("https://quizfirebase-4cb19-default-rtdb.europe-west1.firebasedatabase.app/")
                     .getReference("Users").child(FirebaseAuth.getInstance().currentUser!!.uid).child("Statistics").child(userStaticID)
                 saveUserStatisticsInFireBase.setValue(userStatic)
-                println("RESULTS ACTIVITY: ${userStatic}")
+
+
+                var newUserPoints: Int = userLevel.getExperiencePoints().plus(TOTALSCOREFORCURRENTQUIZ.toInt())
+
+
+                userLevel.setExperiencePoints(newUserPoints)
+
+                userLevel.setLevel( userLevel.returnNewLevelAfterCheck(userLevel.getExperiencePoints(), ExperiencePerLevel.experiencePerLevel))
+
+
+
+                val saveUserExperiencePoints: DatabaseReference = FirebaseDatabase.getInstance("https://quizfirebase-4cb19-default-rtdb.europe-west1.firebasedatabase.app/")
+                    .getReference("Users").child(FirebaseAuth.getInstance().currentUser!!.uid).child("level")
+                saveUserExperiencePoints.setValue(userLevel)
+
 
                 println("EXISTS: TRUE")
 

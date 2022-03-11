@@ -14,9 +14,13 @@ import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.annotation.RequiresApi
+import com.example.quizappfirebase.LevelPackage.Level
 import com.example.quizappfirebase.MainActivityFiles.FunctionalClasses.SortingList
 import com.example.quizappfirebase.MainActivityFiles.MainClasses.Question
 import com.example.quizappfirebase.R
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.*
+import com.google.firebase.firestore.auth.User
 import kotlinx.android.synthetic.main.activity_about_me.*
 import java.util.*
 import kotlin.collections.ArrayList
@@ -73,25 +77,41 @@ class AboutMeActivity : AppCompatActivity() {
         startBtn.setOnClickListener{
 
 
-            var array = arrayListOf<Int>(5,2,1,10,3,6,4)
-            println("Lista przed sortowaniem: ")
-            for (i in array)
-            {
-
-                print("${i}, ")
+            var queryLevel: Query = FirebaseDatabase.getInstance("https://quizfirebase-4cb19-default-rtdb.europe-west1.firebasedatabase.app/").getReference("Users")
+                .child(FirebaseAuth.getInstance().currentUser!!.uid).child("level")
 
 
-            }
-            println()
-            println("Lista po sortowaniu: ")
+            queryLevel.addValueEventListener(object: ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    var userLevel: Level = Level()
+                    if(snapshot.exists())
+                    {   var counter: Int = 0
+
+                        for (level in snapshot.children)
+                        {
+                            if (level.key == "level")
+                            {
+                                userLevel.setLevel(level.value.toString().toInt())
+                            }
+                            if (level.key == "experiencePoints")
+                            {
+                                userLevel.setExperiencePoints(level.value.toString().toInt())
+                            }
 
 
+                        }
+                        println("LEVEL1: ${userLevel.getExperiencePoints()}")
 
-            println()
-        timer.start()
-        animation.start()
 
-//            currentProgress+=10
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    TODO("Not yet implemented")
+                }
+
+
+            })
 
 
 

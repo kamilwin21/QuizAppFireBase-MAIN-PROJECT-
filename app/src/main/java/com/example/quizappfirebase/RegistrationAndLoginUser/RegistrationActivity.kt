@@ -7,6 +7,7 @@ import android.text.TextUtils
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import com.example.quizappfirebase.LevelPackage.Level
 import com.example.quizappfirebase.MainActivityFiles.MainClasses.Statics
 import com.example.quizappfirebase.R
 import com.example.quizappfirebase.RegistrationAndLoginUser.Classes.User
@@ -101,16 +102,17 @@ class RegistrationActivity : AppCompatActivity() {
                                 if (task.isSuccessful)
                                 {
                                     val database = FirebaseDatabase.getInstance("https://quizfirebase-4cb19-default-rtdb.europe-west1.firebasedatabase.app/").reference
-
-
+                                    var initialUserStatistics: ArrayList<Statics> = arrayListOf()
+                                    val level: Level = Level()
                                     val user =
                                         User(
                                             FirebaseAuth.getInstance().currentUser!!.uid,
                                             email,
-                                            password,
                                             name,
                                             surname,
-                                            age
+                                            age,
+                                            level,
+                                            initialUserStatistics
                                         )
 
                                     //myRef.child(FirebaseAuth.getInstance().currentUser!!.uid).setValue(user)
